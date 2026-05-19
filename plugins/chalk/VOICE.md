@@ -107,6 +107,15 @@ Mental models, why-this-way, decisions, tradeoffs, dead ends, invariants.
 - Play-by-play of mechanical steps ("then I ran the tests", "then I edited the file").
 - The journey of how you got there — optimise for the reader, not the writer.
 
+After drafting, re-read each paragraph adversarially and ask:
+- Could a reader infer this from the diff?
+- Am I defending a choice the reader would accept on sight?
+- Am I describing what this change doesn't do?
+- Am I speculating about how users will behave?
+
+Cut anything that answers yes.
+The chalk thread and `Refs` trailers carry the journey; the body carries the destination.
+
 **Examples.**
 
 Not this (restates the diff):

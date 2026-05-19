@@ -34,7 +34,19 @@ The user will provide the commit headline as an argument to this command (e.g., 
 
 4. **Ask clarifying questions** if you can't reconstruct the *why* from the conversation history — particularly around whether something was a deliberate choice vs. a constraint, or intentionally out-of-scope vs. overlooked.
 
-5. **Make the commit** directly with the commit body you've drafted:
+5. **Scrub the draft.**
+   Before committing, re-read each paragraph adversarially.
+   Cut anything that:
+
+   - the reader could infer from the diff,
+   - defends a choice they'd accept on sight,
+   - describes what this change doesn't do, or
+   - speculates about how users will behave.
+
+   See `VOICE.md`'s "What to omit" for the principle.
+   The chalk thread and `Refs` trailers carry the journey; the body carries the destination.
+
+6. **Make the commit** directly with the commit body you've drafted:
    - Use the user's provided headline as the first line
    - Add a blank line
    - Add your drafted commit body
@@ -77,4 +89,5 @@ When chalk is active (tracking a GitHub issue), the commit is part of a larger s
 3. Review the session to extract salient context
 4. Draft the commit body
 5. Ask any clarifying questions if needed
-6. Make the commit with git commit (the user will review the commit message in the Bash tool request)
+6. Scrub the draft (cut what's inferrable from the diff, defends an obvious choice, describes untouched behaviour, or speculates about user behaviour)
+7. Make the commit with git commit (the user will review the commit message in the Bash tool request)

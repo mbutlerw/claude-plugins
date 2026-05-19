@@ -40,7 +40,19 @@ If no title is provided, draft one from the branch's commits.
 
 4. **Ask clarifying questions** if you can't reconstruct the reasoning from the commits and conversation history.
 
-5. **Delegate to the chalk github agent** to create the PR:
+5. **Scrub the draft.**
+   Before delegating, re-read each paragraph adversarially.
+   Cut anything that:
+
+   - the reader could infer from the diff,
+   - defends a choice they'd accept on sight,
+   - describes what this change doesn't do, or
+   - speculates about how users will behave.
+
+   See `VOICE.md`'s "What to omit" for the principle.
+   The chalk thread and `Refs` trailers carry the journey; the body carries the destination.
+
+6. **Delegate to the chalk github agent** to create the PR:
    - Push the branch if needed
    - Pass the title and description to the agent
    - Pass any project-specific PR conventions relevant to this operation — default reviewers, labels, base branch, draft status, project boards — that you can see in your current context (typically the project's `CLAUDE.md` or explicit user instructions for this session). Include them verbatim; let the agent apply them alongside its defaults.
@@ -66,5 +78,6 @@ When chalk is tracking an issue:
 2. Review all commits on the branch and the conversation history
 3. Draft the PR title and description
 4. Ask any clarifying questions if needed
-5. Push the branch if not already pushed
-6. Delegate to the chalk github agent to create the PR (the user will review the description before approving)
+5. Scrub the draft (cut what's inferrable from the diff, defends an obvious choice, describes untouched behaviour, or speculates about user behaviour)
+6. Push the branch if not already pushed
+7. Delegate to the chalk github agent to create the PR (the user will review the description before approving)
