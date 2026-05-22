@@ -30,6 +30,23 @@ This:
 > Previously, VectorType represented physical types — the compile-time type and run-time type could differ because many physical representations map to one logical type.
 > For physical representations, we now exclusively use Arrow's `Field` class.
 
+**Identifiers stay; numbers leak.**
+Class names, method names, data structures, callsites, error codes are anchored to the codebase and stay accurate as instances of a bug recur.
+Magnitudes, sizes, timings, thread counts, log timestamps are anchored to one reproduction and go stale the next time the same class of bug occurs with different inputs.
+The first belongs in the commit body; the second belongs in the issue.
+
+Sometimes a magnitude *is* part of the architecture ("the snap write lock is held for at most one record's worth of work") — the test isn't "is there a number?" but "is the number a property of the system, or a property of one log?"
+
+Not this (pinned to one log dump):
+> DETACH of an external-source database leaked ~96kb of live-index allocator memory whenever the leader's persister was mid-`importTx` when the close ran.
+
+This (the shape):
+> DETACH of an external-source database could race the leader's persister against `LiveIndex.close()` — the persister kept mutating `LiveIndex` after `close()` returned, freeing buffers under in-flight writes.
+
+Both are concrete.
+The first names `96kb` and `importTx` — facts true of one log dump that won't recur identically.
+The second names `LiveIndex.close()` and "the persister" — structural identifiers that stay accurate across reproductions.
+
 ### Line formatting depends on the destination
 
 Where prose ends up shapes how to break lines.
@@ -106,12 +123,14 @@ Mental models, why-this-way, decisions, tradeoffs, dead ends, invariants.
 - Obvious details self-evident from the diff, the code, or the issue description.
 - Play-by-play of mechanical steps ("then I ran the tests", "then I edited the file").
 - The journey of how you got there — optimise for the reader, not the writer.
+- Incident-specific data (leak sizes, timestamps, magnitudes, thread counts) pulled from one reproduction's logs — the issue carries that, the commit body shouldn't restate it.
 
 After drafting, re-read each paragraph adversarially and ask:
 - Could a reader infer this from the diff?
 - Am I defending a choice the reader would accept on sight?
 - Am I describing what this change doesn't do?
 - Am I speculating about how users will behave?
+- Would this sentence still be accurate if the same class of bug recurred with different inputs? (If no, it's reproduction detail.)
 
 Cut anything that answers yes.
 The chalk thread and `Refs` trailers carry the journey; the body carries the destination.
